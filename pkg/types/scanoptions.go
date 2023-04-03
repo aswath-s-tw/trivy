@@ -15,4 +15,6 @@ type ScanOptions struct {
 	LicenseCategories   map[types.LicenseCategory][]string
 	FilePatterns        []string
 	DockerHost          string
+	PodmanHost          string
+	ContainerdHost      string
 }

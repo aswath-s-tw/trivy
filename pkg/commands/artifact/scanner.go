@@ -16,6 +16,8 @@ func imageStandaloneScanner(ctx context.Context, conf ScannerConfig) (scanner.Sc
 		conf.ArtifactOption.InsecureSkipTLS,
 		conf.ArtifactOption.Platform,
 		conf.ArtifactOption.DockerHost,
+		conf.ArtifactOption.ContainerdHost,
+		conf.ArtifactOption.PodmanHost,
 	)
 	if err != nil {
 		return scanner.Scanner{}, nil, err
@@ -49,7 +51,7 @@ func archiveStandaloneScanner(ctx context.Context, conf ScannerConfig) (scanner.
 func imageRemoteScanner(ctx context.Context, conf ScannerConfig) (
 	scanner.Scanner, func(), error) {
 	// Scan an image in Docker Engine, Docker Registry, etc.
-	dockerOpt, err := types.GetDockerOption(conf.ArtifactOption.InsecureSkipTLS, conf.ArtifactOption.Platform, "")
+	dockerOpt, err := types.GetDockerOption(conf.ArtifactOption.InsecureSkipTLS, conf.ArtifactOption.Platform, "", "", "")
 	if err != nil {
 		return scanner.Scanner{}, nil, err
 	}

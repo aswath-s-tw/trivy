@@ -8,6 +8,8 @@ package artifact
 
 import (
 	"context"
+	"os"
+
 	"github.com/aquasecurity/trivy-db/pkg/db"
 	"github.com/aquasecurity/trivy/pkg/detector/ospkg"
 	"github.com/aquasecurity/trivy/pkg/fanal/applier"
@@ -37,6 +39,23 @@ func initializeDockerScanner(ctx context.Context, imageName string, artifactCach
 	client := vulnerability.NewClient(config)
 	localScanner := local.NewScanner(applierApplier, detector, client)
 	v := _wireValue
+
+	if(dockerOpt.DockerHost != "" || dockerOpt.ContainerdHost != "" || dockerOpt.PodmanHost != ""){
+		v = append(v, image.SetAll(false))
+		if(dockerOpt.DockerHost != ""){
+			v = append(v, image.SetDockerd(true))
+		}
+		if(dockerOpt.ContainerdHost != ""){
+			v = append(v, image.SetContainerd(true))
+			os.Setenv("CONTAINERD_ADDRESS", dockerOpt.ContainerdHost)
+		}
+		if(dockerOpt.PodmanHost != ""){
+			v = append(v, image.SetPodman(true))
+			os.Setenv("XDG_RUNTIME_DIR", dockerOpt.PodmanHost)
+		}
+	}
+
+
 	typesImage, cleanup, err := image.NewContainerImage(ctx, imageName, dockerOpt, v...)
 	if err != nil {
 		return scanner.Scanner{}, nil, err

@@ -532,6 +532,8 @@ func initScannerConfig(opts flag.Options, cacheClient cache.Cache) (ScannerConfi
 		ScanRemovedPackages: opts.ScanRemovedPkgs,     // this is valid only for 'image' subcommand
 		Platform:            opts.Platform,            // this is valid only for 'image' subcommand
 		DockerHost:          opts.DockerHost,          // this is valid only for 'image' subcommand
+		ContainerdHost:      opts.ContainerdHost,      // this is valid only for 'image' subcommand
+		PodmanHost:          opts.PodmanHost,          // this is valid only for 'image' subcommand
 		ListAllPackages:     opts.ListAllPkgs,
 		LicenseCategories:   opts.LicenseCategories,
 		FilePatterns:        opts.FilePatterns,
@@ -619,6 +621,8 @@ func initScannerConfig(opts flag.Options, cacheClient cache.Cache) (ScannerConfi
 			RekorURL:          opts.RekorURL,
 			Platform:          opts.Platform,
 			DockerHost:        opts.DockerHost,
+			PodmanHost:        opts.PodmanHost,
+			ContainerdHost:    opts.ContainerdHost,
 			Slow:              opts.Slow,
 			AWSRegion:         opts.Region,
 

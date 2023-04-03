@@ -26,4 +26,6 @@ type DockerOption struct {
 
 	// Unix domain socket path
 	DockerHost string
+	ContainerdHost string
+	PodmanHost string
 }

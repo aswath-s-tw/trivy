@@ -20,28 +20,49 @@ type options struct {
 
 type Option func(*options)
 
-func DisableDockerd() Option {
+func SetDockerd(value bool) Option {
+	return func(opts *options) {
+		opts.dockerd = value
+	}
+}
+
+func SetPodman(value bool) Option {
+	return func(opts *options) {
+		opts.podman = value
+	}
+}
+
+func SetContainerd(value bool) Option {
+	return func(opts *options) {
+		opts.containerd = value
+	}
+}
+
+func SetRemote(value bool) Option {
+	return func(opts *options) {
+		opts.remote = value
+	}
+}
+
+func SetAll(value bool) Option {
 	return func(opts *options) {
 		opts.dockerd = false
-	}
-}
-
-func DisablePodman() Option {
-	return func(opts *options) {
 		opts.podman = false
-	}
-}
-
-func DisableContainerd() Option {
-	return func(opts *options) {
 		opts.containerd = false
 	}
 }
 
+func DisableDockerd() Option {
+	return SetDockerd(false)
+}
+func DisablePodman() Option {
+	return SetPodman(false)
+}
+func DisableContainerd() Option {
+	return SetContainerd(false)
+}
 func DisableRemote() Option {
-	return func(opts *options) {
-		opts.remote = false
-	}
+	return SetRemote(false)
 }
 
 func NewContainerImage(ctx context.Context, imageName string, option types.DockerOption, opts ...Option) (types.Image, func(), error) {

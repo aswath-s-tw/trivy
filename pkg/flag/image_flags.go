@@ -42,6 +42,18 @@ var (
 		Value:      "",
 		Usage:      "unix domain socket path to use for docker standalone scanning",
 	}
+	PodmanHostFlag = Flag{
+		Name:       "podman-host",
+		ConfigName: "image.podman-host",
+		Value:      "",
+		Usage:      "unix domain socket path to use for podman standalone scanning",
+	}
+	ContainerdHostFlag = Flag{
+		Name:       "containerd-host",
+		ConfigName: "image.containerd-host",
+		Value:      "",
+		Usage:      "unix domain socket path to use for containerd standalone scanning",
+	}
 )
 
 type ImageFlagGroup struct {
@@ -50,6 +62,8 @@ type ImageFlagGroup struct {
 	ScanRemovedPkgs     *Flag
 	Platform            *Flag
 	DockerHost          *Flag
+	PodmanHost          *Flag
+	ContainerdHost      *Flag
 }
 
 type ImageOptions struct {
@@ -58,6 +72,8 @@ type ImageOptions struct {
 	ScanRemovedPkgs     bool
 	Platform            string
 	DockerHost          string
+	PodmanHost          string
+	ContainerdHost      string
 }
 
 func NewImageFlagGroup() *ImageFlagGroup {
@@ -67,6 +83,8 @@ func NewImageFlagGroup() *ImageFlagGroup {
 		ScanRemovedPkgs:     &ScanRemovedPkgsFlag,
 		Platform:            &PlatformFlag,
 		DockerHost:          &DockerHostFlag,
+		PodmanHost:          &PodmanHostFlag,
+		ContainerdHost:      &ContainerdHostFlag,
 	}
 }
 
@@ -75,7 +93,7 @@ func (f *ImageFlagGroup) Name() string {
 }
 
 func (f *ImageFlagGroup) Flags() []*Flag {
-	return []*Flag{f.Input, f.ImageConfigScanners, f.ScanRemovedPkgs, f.Platform, f.DockerHost}
+	return []*Flag{f.Input, f.ImageConfigScanners, f.ScanRemovedPkgs, f.Platform, f.DockerHost, f.ContainerdHost, f.PodmanHost}
 }
 
 func (f *ImageFlagGroup) ToOptions() (ImageOptions, error) {
@@ -89,5 +107,7 @@ func (f *ImageFlagGroup) ToOptions() (ImageOptions, error) {
 		ScanRemovedPkgs:     getBool(f.ScanRemovedPkgs),
 		Platform:            getString(f.Platform),
 		DockerHost:          getString(f.DockerHost),
+		PodmanHost:          getString(f.PodmanHost),
+		ContainerdHost:      getString(f.ContainerdHost),
 	}, nil
 }

@@ -26,9 +26,13 @@ type Option struct {
 	SBOMSources       []string
 	RekorURL          string
 	Platform          string
-	DockerHost        string
-	Slow              bool // Lower CPU and memory
-	AWSRegion         string
+
+	DockerHost     string
+	ContainerdHost string
+	PodmanHost     string
+
+	Slow      bool // Lower CPU and memory
+	AWSRegion string
 
 	MisconfScannerOption misconf.ScannerOption
 	SecretScannerOption  analyzer.SecretScannerOption
